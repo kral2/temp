@@ -1,5 +1,8 @@
 // Copyright (c) 2018, 2021, Oracle and/or its affiliates.
 
+variable "tenancy_ocid" {}
+variable "compartment_ocid" {}
+variable "region" {}
 
 terraform {
   required_version = ">= 0.12, < 0.13" // this example is intended to run with Terraform v0.12
