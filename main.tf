@@ -1,29 +1,11 @@
 // Copyright (c) 2018, 2021, Oracle and/or its affiliates.
 
-# variable "tenancy_ocid" {}
-# variable "compartment_ocid" {}
-# variable "user_ocid" {}
-# variable "fingerprint" {}
-# variable "private_key_path" {}
-# variable "region" {}
-# variable "homeregion" {}
+variable "tenancy_ocid" {}
+variable "region" {}
 
 terraform {
   required_version = ">= 0.12, < 0.13" // this example is intended to run with Terraform v0.12
-  required_providers {
-    oci = {
-      version = ">= 3.27" // force downloading oci-provider compatible with terraform v0.12
-    }
   }
-}
-
-# provider "oci" {
-#   tenancy_ocid     = var.tenancy_ocid
-#   user_ocid        = var.user_ocid
-#   fingerprint      = var.fingerprint
-#   private_key_path = var.private_key_path
-#   region           = var.homeregion
-# }
 
 /*
 * This example shows how to create a compartement and two sub-compartemnt.
@@ -37,39 +19,6 @@ terraform {
 * Note: The compartment resource internally resolves name collisions and returns a reference to the preexisting compartment.
 * All resources created by this example can be deleted by using the Terraform destroy command.
  */
-
-# module "iam_compartment" {
-#   source                  = "oracle-terraform-modules/iam/oci//modules/iam-compartment"
-#   version                 = "2.0.0"
-#   tenancy_ocid            = var.tenancy_ocid
-#   compartment_id          = var.tenancy_ocid # define the parent compartment. Creation at tenancy root if omitted
-#   compartment_name        = "tf_example_compartment"
-#   compartment_description = "compartment at root level created - terraformed"
-#   compartment_create      = true # if false, a data source with a matching name is created instead
-#   enable_delete           = true # if false, on `terraform destroy`, compartment is deleted from the terraform state but not from oci 
-# }
-
-# module "iam_subcompartment1" {
-#   source                  = "oracle-terraform-modules/iam/oci//modules/iam-compartment"
-#   version                 = "2.0.0"
-#   tenancy_ocid            = var.tenancy_ocid
-#   compartment_id          = module.iam_compartment.compartment_id # define the parent compartment. Here we make reference to the previous module
-#   compartment_name        = "tf_example_subcompartment1"
-#   compartment_description = "subcompartment created below tf_example_compartment - terraformed"
-#   compartment_create      = true # if false, a data source with a matching name is created instead
-#   enable_delete           = true # if false, on `terraform destroy`, compartment is deleted from the terraform state but not from oci 
-# }
-
-# module "iam_subcompartment2" {
-#   source                  = "oracle-terraform-modules/iam/oci//modules/iam-compartment"
-#   version                 = "2.0.0"
-#   tenancy_ocid            = var.tenancy_ocid
-#   compartment_id          = module.iam_compartment.compartment_id # define the parent compartment. Here we make reference to the previous module
-#   compartment_name        = "tf_example_subcompartment2"
-#   compartment_description = "subcompartment created below tf_example_compartment - terraformed"
-#   compartment_create      = true # if false, a data source with a matching name is created instead
-#   enable_delete           = true # if false, on `terraform destroy`, compartment is deleted from the terraform state but not from oci 
-# }
 
 module "iam_users" {
   source       = "oracle-terraform-modules/iam/oci//modules/iam-user"
@@ -109,19 +58,3 @@ module "iam_group" {
     "Allow group ${module.iam_group.group_name} to inspect instances in compartment tf_example_compartment",
   ]
 }
-
-# module "iam_dynamic_group" {
-#   source                    = "oracle-terraform-modules/iam/oci//modules/iam-group"
-#   version                   = "2.0.0"
-#   tenancy_ocid              = var.tenancy_ocid
-#   dynamic_group_name        = "tf_example_dynamic_group"
-#   dynamic_group_description = "dynamic group created by terraform"
-#   matching_rule             = "instance.compartment.id = '${module.iam_compartment.compartment_id}'"
-#   policy_compartment_id     = module.iam_compartment.compartment_id
-#   policy_name               = "tf-example-dynamic-policy"
-#   policy_description        = "dynamic policy created by terraform"
-#   policy_statements = [
-#     "Allow dynamic-group ${module.iam_dynamic_group.dynamic_group_name} to read instances in compartment tf_example_compartment",
-#     "Allow dynamic-group ${module.iam_dynamic_group.dynamic_group_name} to inspect instances in compartment tf_example_compartment",
-#   ]
-# }
