@@ -1,11 +1,14 @@
 // Copyright (c) 2018, 2021, Oracle and/or its affiliates.
 
-variable "tenancy_ocid" {}
-variable "region" {}
 
 terraform {
   required_version = ">= 0.12, < 0.13" // this example is intended to run with Terraform v0.12
+  required_providers {
+    oci = {
+      version = ">= 3.27" // force downloading oci-provider compatible with terraform v0.12
+    }
   }
+}
 
 /*
 * This example shows how to create a compartement and two sub-compartemnt.
