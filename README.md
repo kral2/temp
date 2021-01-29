@@ -20,7 +20,7 @@ All resources created by this example can be deleted by using the `terraform des
 
 ### From this web page using OCI Resource Manager
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/kral2/temp/archive/v1.0.0.zip)
+[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?zipUrl=https://github.com/kral2/temp/raw/master/oci-iam-examples.zip)
 
 ### From your desktop using the Terraform cli
 
